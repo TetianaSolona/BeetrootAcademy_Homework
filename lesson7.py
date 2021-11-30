@@ -16,7 +16,6 @@ if __name__ == '__main__':
         return count
     print(word_count('he has a cat and a dog at hom'))
 
-    sentence = 'he has a cat and a dog at hom'
 
     # task 2
     stock = {
