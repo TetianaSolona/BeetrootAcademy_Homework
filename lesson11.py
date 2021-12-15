@@ -42,7 +42,7 @@ if __name__ == '__main__':
     class TVController:
 
         def __init__(self, channel):
-            self.channel = channel
+            self.channel = channel[:]
             self.current_channel = self.channel[0]
 
         def first_channel(self):
@@ -53,22 +53,18 @@ if __name__ == '__main__':
             self.current_channel = self.channel[-1]
             return self.current_channel
 
+        def turn_channel(self, num):
+            self.current_channel = num % len(self.channel)
+            return self.current_channel
+
+        def previous_channel(self):
+            return self.current_channel % len(self.channel) - 1
+
         def next_channel(self):
             if self.channel.index(self.current_channel) == len(self.channel) - 1:
                 self.current_channel = self.channel[0]
             else:
                 self.current_channel = self.channel[self.channel.index(self.current_chanel) + 1]
-            return self.current_channel
-
-        def turn_channel(self, num):
-            self.current_channel = self.channel[num - 1]
-            return self.current_channel
-
-        def previous_channel(self):
-            if self.channel.index(self.current_channel) == 0:
-                self.current_channel = self.channel[-1]
-            else:
-                self.current_channel = self.channel[self.channel.index(self.current_channel) - 1]
             return self.current_channel
 
         def cur_channel(self):
