@@ -56,7 +56,6 @@ class Product:
 
 
 class ProductInShop:
-
     def __int__(self, prod):
         self.prod = prod
         self.amount = 0
@@ -64,27 +63,29 @@ class ProductInShop:
 
 
 class ProductStore:
-
-    def __init__(self):
+    def __init__(self, prod):
+        self.prod = prod
         self.products = []
 
     def add(self, product, amount):
-        p = ProductInShop(product)
-        p.amount = amount
-        self.products.append(p)
-
+        self.prod = product
+        product.amount = amount
+        self.products.append(product)
 
     def set_discount(self, identifier, percent):
-        for p in self.products:
-            if p.prod.name == identifier or p.prod.type == identifier:
-                return p.prod.price - (p.prod.price * percent / 100)
+        for product in self.products:
+            if product.name == identifier:
+                product.price = product.price - (product.price * percent / 100)
+                print(product.price)
 
-    def sell_product(self, product, amount):
-        for p in self.products:
-            if self.prod.name == product and self.prod.amount > amount:
-                self.prod.amount -= amount
-            else:
-                print('This product was sold out')
+    def sell_product(self, pr, amount):
+        for product in self.products:
+            if product.name == pr:
+                if product.amount > amount:
+                    product.amount -= amount
+                    print(product.amount)
+                elif product.amount == amount:
+                    print('All product was sold out')
 
     def get_all_products(self):
         all_products = []
@@ -93,9 +94,9 @@ class ProductStore:
         print(all_products)
 
     def get_products_info(self, name):
-        for p in self.products:
-            if self.prod.name == name:
-                return self.prod.name, self.prod.amount
+        for product in self.products:
+            if product.name == name:
+                print(self.prod.name, self.prod.amount)
 
 
 if __name__ == '__main__':
@@ -109,7 +110,12 @@ if __name__ == '__main__':
    print(m.remove_positives(-8, 9, 7))
    print(m.filter_leaps(1997, 2020))
 
-   p = Product('food', 'ramen', 100)
-   a = ProductStore()
-   a.add(p, 10)
-   a.get_all_products()
+   p1 = Product('food', 'ramen', 100)
+   p2 = Product('food', 'bread', 15)
+   sp = ProductStore(p1)
+   sp.add(p1, 10)
+   sp.add(p2, 10)
+   sp.get_all_products()
+   sp.set_discount('bread', 10)
+   sp.sell_product('bread', 10)
+   sp.get_products_info('ramen')
