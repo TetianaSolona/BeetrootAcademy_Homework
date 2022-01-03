@@ -11,14 +11,31 @@ def in_range(start, end, step=1):
         start += step
 
 # task 3
-my_list = [x*x for x in range(1,10)]
-my_generator = (x*x for x in range(1,10))
+class MyIter:
+    def __init__(self, args):
+        self.__index = 0
+        self.__data = args
+
+    def __iter__(self):
+        self.__index = 0
+        return self
+
+    def __next__(self):
+        if self.__index >= len(self.__data):
+            raise StopIteration
+        answer = self.__data[self.__index]
+        self.__index += 1
+        return answer
+
+    def __getitem__(self, item):
+        return self.__data[item]
 
 
 if __name__ == '__main__':
     print(list(with_index(['Cristmas', 'New Year'])))
     print(list(in_range(2,16,2)))
 
-    print(my_list)
-    for x in my_generator:
-        print(x)
+    it = MyIter('12345')
+    for i in it:
+        print(i)
+    print(it.__getitem__(2))
