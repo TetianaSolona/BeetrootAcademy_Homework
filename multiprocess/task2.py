@@ -12,11 +12,28 @@ def subreddit_url():
     return urls
 
 
-def get_subreddit_comment(url):
+def name_file():
+    i = 1
+    while True:
+        yield f'data_{i}.json'
+        i += 1
+
+
+def get_name_file():
+    g = name_file()
+    def myfunc():
+        return next(g)
+    return myfunc
+
+
+get_file_name = get_name_file()
+
+
+def get_subreddit_comment(url, filename):
     response = requests.get(url)
     if response.ok:
         data = response.json()
-        with open('data_file.json', 'w') as f:
+        with open(filename, 'w') as f:
             json.dump(data, f, indent=4)
 
 
@@ -24,7 +41,7 @@ def main():
     with concurrent.futures.ProcessPoolExecutor() as pool:
         data = []
         for url in subreddit_url():
-            rez = pool.submit(get_subreddit_comment, url)
+            rez = pool.submit(get_subreddit_comment, url, get_file_name())
             data.append(rez)
 
 
